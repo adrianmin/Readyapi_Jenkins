@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="607fcc8f-ce33-4279-8dcf-e544ed73b987" created="3.40.2" activeEnvironment="Default environment" name="Jenkins Project" updated="3.40.2 2022-07-27T09:18:31Z" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings/>
+  <con:interface xsi:type="con:RestService" id="ce34bd04-aea0-44e4-a9d1-f61c99ae7910" wadlVersion="http://wadl.dev.java.net/2009/02" name="http://api.openweathermap.org" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:settings/>
+    <con:definitionCache/>
+    <con:endpoints>
+      <con:endpoint>http://api.openweathermap.org</con:endpoint>
+    </con:endpoints>
+    <con:resource name="Weather" path="/data/2.5/weather" id="d67ef558-5e31-4621-93eb-3a9b2bd5f52e">
+      <con:settings/>
+      <con:parameters/>
+      <con:method name="Weather" id="3c1b69ba-85cd-40f0-8856-2ce6a3598154" method="GET">
+        <con:settings/>
+        <con:parameters>
+          <con:parameter required="true">
+            <con:name>q</con:name>
+            <con:value>London,uk</con:value>
+            <con:style>QUERY</con:style>
+            <con:default>London,uk</con:default>
+            <con:path xsi:nil="true"/>
+            <con:description xsi:nil="true"/>
+          </con:parameter>
+          <con:parameter required="true">
+            <con:name>APPID</con:name>
+            <con:value>fd2e9a815ae8665784e2f7a732260870</con:value>
+            <con:style>QUERY</con:style>
+            <con:default>fd2e9a815ae8665784e2f7a732260870</con:default>
+            <con:path xsi:nil="true"/>
+            <con:description xsi:nil="true"/>
+          </con:parameter>
+        </con:parameters>
+        <con:request name="Request 1" id="597cf77e-8349-4293-b75f-1a0f5bc65a5c" mediaType="application/json">
+          <con:settings/>
+          <con:endpoint>http://api.openweathermap.org</con:endpoint>
+          <con:parameters>
+            <con:entry key="q" value="London,uk"/>
+            <con:entry key="APPID" value="fd2e9a815ae8665784e2f7a732260870"/>
+          </con:parameters>
+          <con:parameterOrder>
+            <con:entry>q</con:entry>
+            <con:entry>APPID</con:entry>
+          </con:parameterOrder>
+        </con:request>
+      </con:method>
+    </con:resource>
+  </con:interface>
+  <con:testSuite id="6d66dce3-c3d7-423a-aff8-4e9ace6daf92" name="http://api.openweathermap.org Test Suite">
+    <con:settings/>
+    <con:runType>SEQUENTIAL</con:runType>
+    <con:testCase id="7b463d2e-223e-4a52-843a-e7a5fc079124" discardOkResults="false" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="http://api.openweathermap.org Test Case 1" searchProperties="true" timeout="0">
+      <con:settings/>
+      <con:testStep type="restrequest" name="Request 1" id="6a698c4f-1dbd-4b6c-a290-cb738d673e4b">
+        <con:settings/>
+        <con:config service="http://api.openweathermap.org" resourcePath="/data/2.5/weather" methodName="Weather" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="Request 1" id="597cf77e-8349-4293-b75f-1a0f5bc65a5c" mediaType="application/json">
+            <con:settings/>
+            <con:endpoint>http://api.openweathermap.org</con:endpoint>
+            <con:request/>
+            <con:assertion type="Valid HTTP Status Codes" id="5c6cc07d-15a4-40a9-8352-55e016ac14a8" name="Valid HTTP Status Codes">
+              <con:settings/>
+              <con:configuration>
+                <codes>200</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:assertion type="Response SLA Assertion" id="3b01bbd2-7a48-410b-ab5e-a90c66273e58" name="Response SLA">
+              <con:configuration>
+                <SLA>400</SLA>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:parameters>
+              <con:entry key="q" value="London,uk"/>
+              <con:entry key="APPID" value="fd2e9a815ae8665784e2f7a732260870"/>
+            </con:parameters>
+            <con:parameterOrder>
+              <con:entry>q</con:entry>
+              <con:entry>APPID</con:entry>
+            </con:parameterOrder>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
+      <con:reportParameters/>
+    </con:testCase>
+    <con:properties/>
+    <con:reportParameters/>
+  </con:testSuite>
+  <con:properties/>
+  <con:wssContainer/>
+  <con:databaseConnectionContainer/>
+  <con:jmsConnectionContainer/>
+  <con:oAuth2ProfileContainer/>
+  <con:oAuth1ProfileContainer/>
+  <con:reporting>
+    <con:xmlTemplates/>
+    <con:parameters/>
+  </con:reporting>
+  <con:eventHandlers type="RequestFilter.filterRequest" name="RequestFilter.filterRequest">
+    <con:script>// Sample event script to add custom HTTP header to all outgoing REST, SOAP and HTTP(S) calls
+// This code is often used for adding custom authentication to ReadyAPI functional tests
+
+// If hardcoding the token, uncomment and change line 5
+// token = '4567'
+
+// If your token is parameterized in Project level custom property, uncomment line 8
+// token = request.parent.testCase.testSuite.project.getProperty('auth_token').getValue()
+
+// To modify all outgoing calls, remove comments from lines 11 to 16
+// headers = request.requestHeaders
+// if (headers.containsKey('auth_token2') == false) {
+//   headers.put('auth_token2', token)
+//   request.requestHeaders = headers
+// }</con:script>
+  </con:eventHandlers>
+  <con:eventHandlers type="TestRunListener.afterStep" name="TestRunListener.afterStep">
+    <con:script>// Save all test step results into files
+// Change the directory path in line 5 to a location where you want to store details
+// then uncomment lines 5 to 10
+
+// filePath = 'C:\\tempOutputDirectory\\'
+// fos = new java.io.FileOutputStream(filePath + testStepResult.testStep.label + '.txt', true)
+// pw = new java.io.PrintWriter(fos)
+// testStepResult.writeTo(pw)
+// pw.close()
+// fos.close()</con:script>
+  </con:eventHandlers>
+  <con:authRepository/>
+  <con:tags/>
+</con:soapui-project>
